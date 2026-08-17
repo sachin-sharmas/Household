@@ -22,9 +22,11 @@ export const env = {
   port: Number(process.env.PORT) || 5000,
   // CLIENT_URL accepts a comma-separated list so extra origins
   // (e.g. Vercel preview deployments) can be allowed alongside production.
-  clientUrls: (process.env.CLIENT_URL || 'https://household-six-blush.vercel.app/')
+  // Trailing slashes are stripped because the browser's Origin header never
+  // includes one, and the cors package matches origins by exact string.
+  clientUrls: (process.env.CLIENT_URL || 'https://household-six-blush.vercel.app')
     .split(',')
-    .map((url) => url.trim())
+    .map((url) => url.trim().replace(/\/+$/, ''))
     .filter(Boolean),
   // Public URL of this API; when set, the server pings itself to stay awake
   // on free-tier hosts. Render provides RENDER_EXTERNAL_URL automatically.
