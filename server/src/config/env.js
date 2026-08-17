@@ -34,7 +34,12 @@ export const env = {
   mongoUri: process.env.MONGO_URI,
   mongoTlsCertFile: process.env.MONGO_TLS_CERT_FILE,
   jwtSecret: process.env.JWT_SECRET || 'dev-secret',
-  cookieSecure: process.env.COOKIE_SECURE === 'true',
+  // Secure (SameSite=None) cookies are required when the frontend is served
+  // from a different site than the API. Default to secure in production;
+  // COOKIE_SECURE overrides in either direction.
+  cookieSecure: process.env.COOKIE_SECURE
+    ? process.env.COOKIE_SECURE.toLowerCase() === 'true'
+    : isProduction,
   adminEmail: process.env.ADMIN_EMAIL || 'admin@grocery.com',
   adminPassword: process.env.ADMIN_PASSWORD || 'Admin@12345',
   backupUserPassword: process.env.BACKUP_USER_PASSWORD,

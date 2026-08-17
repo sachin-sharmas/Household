@@ -24,7 +24,12 @@ export function setAuthCookie(res, token) {
 }
 
 export function clearAuthCookie(res) {
-  res.clearCookie(AUTH_COOKIE_NAME);
+  // Attributes must match setAuthCookie or browsers ignore the deletion.
+  res.clearCookie(AUTH_COOKIE_NAME, {
+    httpOnly: true,
+    sameSite: env.cookieSecure ? 'none' : 'lax',
+    secure: env.cookieSecure
+  });
 }
 
 export function getTokenFromRequest(req) {
