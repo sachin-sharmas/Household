@@ -1,0 +1,13 @@
+import express from 'express';
+import { login, logout, me, register } from '../controllers/auth.controller.js';
+import { requireAuth } from '../middleware/auth.middleware.js';
+import { authLimiter } from '../middleware/rateLimit.middleware.js';
+import { validate } from '../middleware/validate.middleware.js';
+import { loginSchema, registerSchema } from '../validators/auth.validators.js';
+
+export const authRouter = express.Router();
+
+authRouter.post('/register', authLimiter, validate(registerSchema), register);
+authRouter.post('/login', authLimiter, validate(loginSchema), login);
+authRouter.post('/logout', logout);
+authRouter.get('/me', requireAuth, me);

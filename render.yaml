@@ -1,0 +1,34 @@
+# Render Blueprint — deploy the backend with "New > Blueprint" and this repo.
+# Values marked sync:false must be filled in on the Render dashboard.
+services:
+  - type: web
+    name: household-grocery-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: MONGO_URI
+        sync: false
+      - key: CLIENT_URL # your Vercel URL, e.g. https://your-app.vercel.app (comma-separate to allow more origins)
+        sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: BACKUP_USER_PASSWORD
+        sync: false
