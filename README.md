@@ -92,7 +92,7 @@ Run the app:
 npm run dev
 ```
 
-Frontend: `http://localhost:5173`
+Frontend: `https://household-six-blush.vercel.app/`
 Backend: `http://localhost:5000`
 
 ## Default Admin

@@ -22,7 +22,7 @@ export const env = {
   port: Number(process.env.PORT) || 5000,
   // CLIENT_URL accepts a comma-separated list so extra origins
   // (e.g. Vercel preview deployments) can be allowed alongside production.
-  clientUrls: (process.env.CLIENT_URL || 'http://localhost:5173')
+  clientUrls: (process.env.CLIENT_URL || 'https://household-six-blush.vercel.app/')
     .split(',')
     .map((url) => url.trim())
     .filter(Boolean),
