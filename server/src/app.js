@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import { env } from './config/env.js';
 import { requireDatabase } from './middleware/database.middleware.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
+import { verifyOrigin } from './middleware/csrf.middleware.js';
 import { apiLimiter } from './middleware/rateLimit.middleware.js';
 import { apiRouter } from './routes/index.js';
 
@@ -34,7 +35,7 @@ app.get('/api/health', (_req, res) => {
   });
 });
 
-app.use('/api', apiLimiter, requireDatabase, apiRouter);
+app.use('/api', verifyOrigin, apiLimiter, requireDatabase, apiRouter);
 
 app.use(notFound);
 app.use(errorHandler);

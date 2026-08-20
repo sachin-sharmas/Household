@@ -26,7 +26,7 @@ Household Grocery Management System is a shared grocery and food inventory dashb
 | -------- | ------------------------------------------------------------------------------------- |
 | Frontend | React 19, Vite 6, Tailwind CSS 4, react-router-dom 7, lucide-react icons               |
 | Backend  | Node 20+, Express 4, Mongoose 8, zod, jsonwebtoken, bcryptjs, web-push, nodemailer     |
-| Security | helmet, express-rate-limit, httpOnly cookie auth, CORS locked to `CLIENT_URL`          |
+| Security | helmet, express-rate-httpOnlimit, ly cookie auth, CORS locked to `CLIENT_URL`          |
 | Deploy   | Dockerfiles for both apps (nginx serves the client with gzip + SPA fallback), compose  |
 
 ## Project structure
