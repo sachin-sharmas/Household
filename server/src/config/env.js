@@ -42,7 +42,6 @@ export const env = {
     : isProduction,
   adminEmail: process.env.ADMIN_EMAIL || 'admin@grocery.com',
   adminPassword: process.env.ADMIN_PASSWORD || 'Admin@12345',
-  backupUserPassword: process.env.BACKUP_USER_PASSWORD,
   vapid: {
     publicKey: process.env.VAPID_PUBLIC_KEY,
     privateKey: process.env.VAPID_PRIVATE_KEY,

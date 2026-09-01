@@ -7,6 +7,8 @@ import PublicRoute from './routes/PublicRoute.jsx';
 
 const AdminPage = lazy(() => import('./pages/AdminPage.jsx'));
 const AuthPage = lazy(() => import('./pages/AuthPage.jsx'));
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage.jsx'));
+const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage.jsx'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage.jsx'));
 const MyItemsPage = lazy(() => import('./pages/MyItemsPage.jsx'));
 const MyAssignedPage = lazy(() => import('./pages/MyAssignedPage.jsx'));
@@ -20,6 +22,8 @@ export default function App() {
           <Routes>
             <Route path="/login" element={<PublicRoute><AuthPage mode="login" /></PublicRoute>} />
             <Route path="/register" element={<PublicRoute><AuthPage mode="register" /></PublicRoute>} />
+            <Route path="/forgot-password" element={<PublicRoute><ForgotPasswordPage /></PublicRoute>} />
+            <Route path="/reset-password" element={<PublicRoute><ResetPasswordPage /></PublicRoute>} />
             <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="/my-items" element={<ProtectedRoute><MyItemsPage /></ProtectedRoute>} />
             <Route path="/my-assigned" element={<ProtectedRoute><MyAssignedPage /></ProtectedRoute>} />

@@ -30,5 +30,16 @@ services:
         sync: false
       - key: ADMIN_PASSWORD
         sync: false
-      - key: BACKUP_USER_PASSWORD
+      # SMTP is required for password reset emails and item-assignment emails.
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_SECURE
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
         sync: false

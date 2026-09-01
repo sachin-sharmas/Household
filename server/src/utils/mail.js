@@ -2,8 +2,8 @@ import nodemailer from 'nodemailer';
 import { env } from '../config/env.js';
 import { logger } from './logger.js';
 
-const isConfigured = Boolean(env.smtp.host && env.smtp.user && env.smtp.pass && env.smtp.from);
-const transporter = isConfigured
+export const isEmailConfigured = Boolean(env.smtp.host && env.smtp.user && env.smtp.pass && env.smtp.from);
+const transporter = isEmailConfigured
   ? nodemailer.createTransport({
       host: env.smtp.host,
       port: env.smtp.port,
@@ -15,7 +15,7 @@ const transporter = isConfigured
 // Best-effort email send: never throws, never blocks the caller's response.
 // Missing config or missing recipient email are silently skipped (logged).
 export async function sendEmail({ to, subject, text, replyTo }) {
-  if (!isConfigured) {
+  if (!isEmailConfigured) {
     logger.warn('Skipping email: SMTP is not configured.');
     return;
   }

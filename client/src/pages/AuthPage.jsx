@@ -1,6 +1,6 @@
 import { Eye, EyeOff, Lock, Mail, Phone, ShoppingBasket, UserPlus } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 
 // Demo/backup credentials are only baked in during development. For production
@@ -9,15 +9,16 @@ const DEMO_ADMIN = {
   email: import.meta.env.VITE_DEMO_ADMIN_EMAIL || (import.meta.env.DEV ? 'admin@grocery.com' : ''),
   password: import.meta.env.VITE_DEMO_ADMIN_PASSWORD || (import.meta.env.DEV ? 'Admin@12345' : '')
 };
-const BACKUP_USER_PASSWORD = import.meta.env.VITE_BACKUP_USER_PASSWORD || (import.meta.env.DEV ? 'User@12345' : '');
 const SHOW_DEMO_ADMIN = Boolean(DEMO_ADMIN.email && DEMO_ADMIN.password);
 
 export default function AuthPage({ mode }) {
   const isRegister = mode === 'register';
   const { login, register } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' });
   const [error, setError] = useState('');
+  const notice = location.state?.notice || '';
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -77,6 +78,11 @@ export default function AuthPage({ mode }) {
                 {isRegister ? 'User accounts are created with regular access.' : 'Use your user or admin account.'}
               </p>
             </div>
+            {notice && !error && (
+              <div role="status" className="rounded-lg border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-sm text-emerald-800 sm:text-base">
+                {notice}
+              </div>
+            )}
             {error && (
               <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-3 text-sm text-red-800 sm:text-base">
                 {error}
@@ -155,6 +161,11 @@ export default function AuthPage({ mode }) {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </span>
+              {!isRegister && (
+                <Link to="/forgot-password" className="justify-self-end text-sm font-bold text-emerald-700 hover:underline">
+                  Forgot password?
+                </Link>
+              )}
             </label>
             <button
               className="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-600 font-extrabold text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60"
@@ -173,25 +184,18 @@ export default function AuthPage({ mode }) {
                 {isRegister ? 'Login' : 'Sign up'}
               </button>
             </p>
-            {!isRegister && (SHOW_DEMO_ADMIN || BACKUP_USER_PASSWORD) && (
+            {!isRegister && SHOW_DEMO_ADMIN && (
               <div className="grid gap-2.5 border-t border-dashed border-gray-200 pt-3">
                 <span className="text-center text-xs font-bold uppercase tracking-wide text-gray-500">Quick access</span>
-                {SHOW_DEMO_ADMIN && (
-                  <div className="flex gap-2.5">
-                    <button
-                      type="button"
-                      className="inline-flex min-h-11 flex-1 items-center justify-center rounded-lg border border-gray-200 bg-white px-4 font-extrabold text-gray-900 hover:bg-gray-50"
-                      onClick={() => fillDemo(DEMO_ADMIN)}
-                    >
-                      Login as Admin
-                    </button>
-                  </div>
-                )}
-                {BACKUP_USER_PASSWORD && (
-                  <p className="text-center text-sm text-gray-500">
-                    Forgot your password? Enter your registered email with backup password <strong>{BACKUP_USER_PASSWORD}</strong> to sign in.
-                  </p>
-                )}
+                <div className="flex gap-2.5">
+                  <button
+                    type="button"
+                    className="inline-flex min-h-11 flex-1 items-center justify-center rounded-lg border border-gray-200 bg-white px-4 font-extrabold text-gray-900 hover:bg-gray-50"
+                    onClick={() => fillDemo(DEMO_ADMIN)}
+                  >
+                    Login as Admin
+                  </button>
+                </div>
               </div>
             )}
           </form>

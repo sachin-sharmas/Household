@@ -106,10 +106,19 @@ Admin@12345
 
 Change `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `server/.env` before first startup if you want different credentials.
 
-The login page's "Login as Admin" quick-access button and the backup-password hint are shown
-automatically in development builds only. Production builds hide them unless you opt in via
-`VITE_DEMO_ADMIN_EMAIL`, `VITE_DEMO_ADMIN_PASSWORD`, and `VITE_BACKUP_USER_PASSWORD` in
-`client/.env` — no credentials are baked into the production bundle by default.
+The login page's "Login as Admin" quick-access button is shown automatically in development
+builds only. Production builds hide it unless you opt in via `VITE_DEMO_ADMIN_EMAIL` and
+`VITE_DEMO_ADMIN_PASSWORD` in `client/.env` — no credentials are baked into the production
+bundle by default.
+
+## Forgot password
+
+Regular users can reset a forgotten password from the login page ("Forgot password?"): they
+enter their registered email, receive a reset link, and set a new password. Reset links are
+single-use and expire after 30 minutes. This requires the `SMTP_*` variables in `server/.env`
+to be configured — without SMTP the endpoint responds that reset is unavailable. Admin
+accounts don't use email reset; their credentials are managed via `ADMIN_EMAIL` /
+`ADMIN_PASSWORD` (and admins can change any user's password from the admin panel).
 
 ## Browser push notifications
 
@@ -174,7 +183,8 @@ Deploy the backend first so you have its URL for the frontend build.
    directory `server`, `npm ci` / `npm start`, health check `/api/health`, and generates
    `JWT_SECRET` for you.
 2. Fill in the `sync: false` env vars on the dashboard: `MONGO_URI`, `CLIENT_URL` (your Vercel
-   URL once you have it), `VAPID_*`, `ADMIN_EMAIL` / `ADMIN_PASSWORD`, `BACKUP_USER_PASSWORD`.
+   URL once you have it), `VAPID_*`, `ADMIN_EMAIL` / `ADMIN_PASSWORD`, and the `SMTP_*`
+   variables (needed for password reset and assignment emails).
    (Or skip the Blueprint and create a plain Web Service with the same settings.)
 3. **Keep-alive**: Render's free tier sleeps after ~15 minutes of inactivity. The server
    detects Render's `RENDER_EXTERNAL_URL` automatically and pings its own `/api/health` every
